@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <div class="container">
+
+        <dialog class="bookPopUp">
+            <form action="">
+
+                <p id="msg">Let's add a book!</p>
+                
+                <p>
+                    <label for="title">Title:</label>
+                    <input type="text" name="title" id="title" placeholder="The Great Gatsby" required max="50">
+                </p>
+
+                <p>
+                    <label for="author">Author:</label>
+                    <input type="text" name="author" id="author" placeholder="Fitzgerald" required max="50">
+                </p>
+
+                <p>
+                    <label for="pages">Pages:</label>
+                    <input type="number" name="number" id="pages" placeholder="180" required max="10000">
+                </p>
+
+                <p>
+                    <label for="read">Have you read this?</label>
+                    <input type="checkbox" name="read" id="read" checked>
+                </p>
+
+                <div class="buttons">
+                    <button class="cancel" type="button" autofocus>Cancel</button>
+                    <button class="submit" type="submit">Submit</button>
+                </div>
+
+            </form>
+        </dialog>
+
+        <div class="header">
+            <h1 class="logo">Library</h1>
+            <button class="btn logIn">Log In</button>
+        </div>
+
+        <div class="addBook">
+            <button class="btn btn-add">+ Add Book</button>
+        </div>
+
+        <div class="bookCards">
+            <div class="card"></div>
+        </div>
+
+        <div class="footer">
+            Copyright © Tyler Caldwell 2024
+        </div>
+
+    </div>
+    
+</body>
+</html>
