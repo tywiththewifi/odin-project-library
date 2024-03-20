@@ -1,13 +1,17 @@
+
+// Form Buttons
 const addBookButton = document.querySelector(".btn-add");
 const newBookPopUp = document.querySelector(".bookPopUp");
 const submitButton = document.querySelector(".submit");
 const cancelButton = document.querySelector(".cancel");
 
+// Form inputs
 const titleInput = document.getElementById("title");
 const authorInput = document.getElementById("author");
 const pagesInput = document.getElementById("pages");
 const readBookInput = document.getElementById("read");
 
+// Containers
 const container = document.querySelector(".container");
 const bookCards = document.querySelector(".bookCards");
 
@@ -75,7 +79,7 @@ function displayBook(book) {
     pages.textContent = `${book.pages}`;
     let read = document.createElement('button');
     read.textContent = `${book.haveRead ? "Read" : "Not Read"}`
-    read.classList = `${book.haveRead ? "read" : "not-read"} grow`;
+    read.classList = `${book.haveRead ? "read" : "not-read"}`;
     read.style.width = '80px';
     read.style.height = '30px';
     read.addEventListener('click', () => {
@@ -87,7 +91,7 @@ function displayBook(book) {
     let deleteButton = document.createElement('img');
     deleteButton.src = "images/trash-can-outline.svg";
     deleteButton.style.height = '20px';
-    deleteButton.classList = 'remove grow';
+    deleteButton.classList = 'remove';
     deleteButton.addEventListener('click', () => {
         let deleteIndex = myLibrary.findIndex(b => b.bookID === book.bookID);
         if (deleteIndex !== -1) {
@@ -109,6 +113,7 @@ function displayBooks() {
     }
 }
 
+//Dummy Books to load with page
 theHungerGames = new Book("The Hunger Games", "Suzanne Collins", 384, true);
 prideAndPrejudice = new Book("Pride and Prejudice", "Jane Austen", 259, false);
 addBookToLibrary(theHungerGames);
