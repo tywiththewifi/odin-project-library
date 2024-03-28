@@ -15,7 +15,7 @@ const readBookInput = document.getElementById("read");
 const container = document.querySelector(".container");
 const bookCards = document.querySelector(".bookCards");
 
-const myLibrary = [];
+// const myLibrary = [];
 
 addBookButton.addEventListener('click', () => {
     newBookPopUp.showModal();
@@ -35,48 +35,59 @@ function clearForm() {
 }
 
 class Book {
+
+    static lastID = 0;
+    static myLibrary = [];
+    #bookID;
+
     constructor (title, author, pages, haveRead) {
         this.title = title;
-        this.author = "Author: " + author;
-        this.pages = "Pages: " + pages;
+        this.author = author;
+        this.pages = pages;
         this.haveRead = haveRead;
-        this.info = function() {
-            console.log(this.title + " by " + this.author + ", " + this.pages + " pages, " + this.haveRead)
-        };
-        this.bookID = this.assignID();
+        this.#bookID = Book.lastID++;
     };
+
+    get authorDisplay() {
+        return `Author: ${this.author}`;
+    }
+
+    get pagesDisplay() {
+        return `Pages: ${this.pages}`;
+    }
+
+    get bookID() {
+        return this.#bookID;
+    }
     
-    assignID() {
-        return myLibrary.length;
-    };
+    static addBookToLibrary(book) {
+        Book.myLibrary.push(book);
+        console.log(`${book.title} added to library! ID: ${book.#bookID}`);
+    }
 
     toggleStatus() {
-        this.haveRead = this.haveRead ? false : true;
+        this.haveRead = !this.haveRead;
 };
 
 };
-
-
-function addBookToLibrary(newBook) {
-    newBook.assignID();
-    myLibrary.push(newBook);
-    console.log(`${newBook.title} added to library! ID: ${newBook.bookID}`)
-    return `${newBook.title} added to the library! ID: ${newBook.bookID}`;
-}
 
 function displayBook(book) {
-    let card = document.createElement('div');
+    const card = document.createElement('div');
     card.classList = 'card';
     card.setAttribute('data-book-id', book.bookID);
-    let title = document.createElement('div');
+
+    const title = document.createElement('div');
     title.classList = 'title';
     title.textContent = `${book.title}`;
-    let author = document.createElement('div');
+
+    const author = document.createElement('div');
     author.classList = 'author';
-    author.textContent = `${book.author}`;
+    author.textContent = book.authorDisplay;
+
     let pages = document.createElement('div');
     pages.classList = 'pages';
-    pages.textContent = `${book.pages}`;
+    pages.textContent = book.pagesDisplay;
+
     let read = document.createElement('button');
     read.textContent = `${book.haveRead ? "Read" : "Not Read"}`
     read.classList = `${book.haveRead ? "read" : "not-read"}`;
@@ -93,9 +104,9 @@ function displayBook(book) {
     deleteButton.style.height = '20px';
     deleteButton.classList = 'remove';
     deleteButton.addEventListener('click', () => {
-        let deleteIndex = myLibrary.findIndex(b => b.bookID === book.bookID);
+        let deleteIndex = Book.myLibrary.findIndex(b => b.bookID === book.bookID);
         if (deleteIndex !== -1) {
-        myLibrary.splice(deleteIndex, 1);
+        Book.myLibrary.splice(deleteIndex, 1);
         bookCards.removeChild(card);
         }
     });
@@ -108,16 +119,23 @@ function displayBook(book) {
 }
 
 function displayBooks() {
-    for (book of myLibrary) {
+    for (book of Book.myLibrary) {
         displayBook(book);
     }
 }
 
 //Dummy Books to load with page
-theHungerGames = new Book("The Hunger Games", "Suzanne Collins", 384, true);
-prideAndPrejudice = new Book("Pride and Prejudice", "Jane Austen", 259, false);
-addBookToLibrary(theHungerGames);
-addBookToLibrary(prideAndPrejudice);
+
+function loadDummyBooks() {
+    const dummyBooks = [
+        new Book("The Hunger Games", "Suzanne Collins", 384, true),
+        new Book("Pride and Prejudice", "Jane Austen", 259, false)
+    ]    
+
+    dummyBooks.forEach(Book.addBookToLibrary);
+}
+
+loadDummyBooks();
 
 displayBooks();
 
@@ -128,7 +146,7 @@ submitButton.addEventListener("click", (e) => {
         parseInt(pagesInput.value), 
         readBookInput.checked);
     
-    addBookToLibrary(newBook);
+    Book.addBookToLibrary(newBook);
     displayBook(newBook);
     newBookPopUp.close();
     clearForm();
